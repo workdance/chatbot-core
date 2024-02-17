@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alipay.richplayground.dal.mybatis.mapper.aichatbot.AiChatbotChatHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatHistoryDO">
+    <!--@mbg.generated-->
+    <!--@Table ai_chatbot_chat_history-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="deleted_at" jdbcType="TIMESTAMP" property="deletedAt" />
+    <result column="user_message" jdbcType="LONGVARCHAR" property="userMessage" />
+    <result column="assistant" jdbcType="LONGVARCHAR" property="assistant" />
+    <result column="chat_id" jdbcType="VARCHAR" property="chatId" />
+    <result column="message_id" jdbcType="VARCHAR" property="messageId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, gmt_create, gmt_modified, deleted_at, user_message, assistant, chat_id, message_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from ai_chatbot_chat_history
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from ai_chatbot_chat_history
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatHistoryDO" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into ai_chatbot_chat_history (gmt_create, gmt_modified, deleted_at,
+      user_message, assistant, chat_id,
+      message_id)
+    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{deletedAt,jdbcType=TIMESTAMP},
+      #{userMessage,jdbcType=LONGVARCHAR}, #{assistant,jdbcType=LONGVARCHAR}, #{chatId,jdbcType=VARCHAR},
+      #{messageId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatHistoryDO" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into ai_chatbot_chat_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="deletedAt != null">
+        deleted_at,
+      </if>
+      <if test="userMessage != null">
+        user_message,
+      </if>
+      <if test="assistant != null">
+        assistant,
+      </if>
+      <if test="chatId != null">
+        chat_id,
+      </if>
+      <if test="messageId != null">
+        message_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletedAt != null">
+        #{deletedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userMessage != null">
+        #{userMessage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="assistant != null">
+        #{assistant,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="chatId != null">
+        #{chatId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageId != null">
+        #{messageId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatHistoryDO">
+    <!--@mbg.generated-->
+    update ai_chatbot_chat_history
+    <set>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletedAt != null">
+        deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userMessage != null">
+        user_message = #{userMessage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="assistant != null">
+        assistant = #{assistant,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="chatId != null">
+        chat_id = #{chatId,jdbcType=VARCHAR},
+      </if>
+      <if test="messageId != null">
+        message_id = #{messageId,jdbcType=VARCHAR},
+      </if>
+        gmt_modified = now()
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatHistoryDO">
+    <!--@mbg.generated-->
+    update ai_chatbot_chat_history
+    set gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
+      user_message = #{userMessage,jdbcType=LONGVARCHAR},
+      assistant = #{assistant,jdbcType=LONGVARCHAR},
+      chat_id = #{chatId,jdbcType=VARCHAR},
+      message_id = #{messageId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+<select id="selectAll" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from ai_chatbot_chat_history
+    order by
+    gmt_create DESC
+</select>
+
+<select id="querySelectByChatId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from ai_chatbot_chat_history
+      where chat_id = #{chatId,jdbcType=VARCHAR}
+      order by
+      gmt_create ASC
+ </select>
+
+  <update id="updateByMessageId">
+      update ai_chatbot_chat_history
+      <set>
+          <if test="gmtCreate != null">
+              gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+          </if>
+          <if test="gmtModified != null">
+              gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+          </if>
+          <if test="deletedAt != null">
+              deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
+          </if>
+          <if test="userMessage != null">
+              user_message = #{userMessage,jdbcType=LONGVARCHAR},
+          </if>
+          <if test="assistant != null">
+              assistant = #{assistant,jdbcType=LONGVARCHAR},
+          </if>
+          <if test="chatId != null">
+              chat_id = #{chatId,jdbcType=VARCHAR},
+          </if>
+          <if test="messageId != null">
+              message_id = #{messageId,jdbcType=VARCHAR},
+          </if>
+          gmt_modified = now()
+      </set>
+      where message_id = #{messageId,jdbcType=VARCHAR}
+  </update>
+</mapper>
