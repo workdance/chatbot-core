@@ -56,40 +56,36 @@
                 <AppenderRef ref="STDOUT-APPENDER"/>
             </AsyncLogger>
 
-            <AsyncLogger name="STDERR" additivity="false" level="${ctx:logging.level.com.alipay.richplayground}">
+            <AsyncLogger name="STDERR" additivity="false" level="${ctx:logging.level.com.workdance.chatbot}">
                 <AppenderRef ref="STDERR-APPENDER"/>
             </AsyncLogger>
 
-            <AsyncLogger name="com.taobao.tair" additivity="false" level="${ctx:logging.level.com.alipay.richplayground}">
+            <AsyncLogger name="com.taobao.tair" additivity="false" level="${ctx:logging.level.com.workdance.chatbot}">
                 <AppenderRef ref="NO-USAGE-APPENDER"/>
             </AsyncLogger>
 
-            <AsyncLogger name="com.taobao.vipserver" additivity="false" level="${ctx:logging.level.com.alipay.richplayground}">
+            <AsyncLogger name="com.taobao.vipserver" additivity="false" level="${ctx:logging.level.com.workdance.chatbot}">
                 <AppenderRef ref="NO-USAGE-APPENDER"/>
             </AsyncLogger>
 
-            <AsyncLogger name="com.taobao.remoting" additivity="false" level="${ctx:logging.level.com.alipay.richplayground}">
-                <AppenderRef ref="NO-USAGE-APPENDER"/>
-            </AsyncLogger>
-
-            <AsyncLogger name="com.alipay.richplayground.acts.test" additivity="false" level="${ctx:logging.level.com.alipay.richplayground}">
+            <AsyncLogger name="com.workdance.chatbot.acts.test" additivity="false" level="${ctx:logging.level.com.workdance.chatbot}">
                 <AppenderRef ref="APP-DEFAULT-APPENDER"/>
                 <AppenderRef ref="STDOUT-APPENDER"/>
                 <AppenderRef ref="ERROR-APPENDER"/>
             </AsyncLogger>
 
-            <AsyncLogger name="com.alipay.richplayground" additivity="false" level="${ctx:logging.level.com.alipay.richplayground}">
+            <AsyncLogger name="com.workdance.chatbot" additivity="false" level="${ctx:logging.level.com.workdance.chatbot}">
                 <AppenderRef ref="APP-DEFAULT-APPENDER"/>
                 <AppenderRef ref="ERROR-APPENDER"/>
                 <AppenderRef ref="STDOUT-APPENDER"/>
             </AsyncLogger>
 
-            <AsyncLogger name="org.springframework" additivity="false" level="${ctx:logging.level.com.alipay.richplayground}">
+            <AsyncLogger name="org.springframework" additivity="false" level="${ctx:logging.level.com.workdance.chatbot}">
                 <AppenderRef ref="ERROR-APPENDER"/>
                 <AppenderRef ref="SPRING-APPENDER"/>
             </AsyncLogger>
 
-            <AsyncRoot level="${ctx:logging.level.com.alipay.richplayground}">
+            <AsyncRoot level="${ctx:logging.level.com.workdance.chatbot}">
                 <AppenderRef ref="APP-DEFAULT-APPENDER"/>
                 <AppenderRef ref="ERROR-APPENDER"/>
             </AsyncRoot>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.alipay.richplayground.dal.mybatis.mapper.aichatbot.AiChatbotChatMapper">
-  <resultMap id="BaseResultMap" type="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatDO">
+<mapper namespace="com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base.AiChatbotChatMapper">
+  <resultMap id="BaseResultMap" type="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO">
     <!--@mbg.generated-->
     <!--@Table ai_chatbot_chat-->
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -28,7 +28,7 @@
     delete from ai_chatbot_chat
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatDO" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into ai_chatbot_chat (gmt_create, gmt_modified, deleted_at,
       chat_id, chat_name, user_id
@@ -37,7 +37,7 @@
       #{chatId,jdbcType=VARCHAR}, #{chatName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatDO" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into ai_chatbot_chat
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -81,7 +81,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatDO">
+  <update id="updateByPrimaryKeySelective" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO">
     <!--@mbg.generated-->
     update ai_chatbot_chat
     <set>
@@ -106,7 +106,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.alipay.richplayground.dal.mybatis.model.aichatbot.AiChatbotChatDO">
+  <update id="updateByPrimaryKey" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO">
     <!--@mbg.generated-->
     update ai_chatbot_chat
     set gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
