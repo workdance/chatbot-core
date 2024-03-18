@@ -4,7 +4,7 @@ import com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base.AiChatbotChatMapp
 import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO;
 import com.workdance.chatbot.service.llm.ModelHttpService;
 import com.workdance.chatbot.service.llm.dto.ChatServiceReq;
-import com.workdance.chatbot.web.dto.ChatReq;
+import com.workdance.chatbot.web.dto.inputs.ChatReq;
 import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +33,11 @@ public class ChatController {
   private ModelHttpService ollamaHttpService;
 
   @PostMapping("/list")
-  public Result<List<AiChatbotChatDO>> List() {
+  public Result<List<AiChatbotChatDO>> List(@RequestBody ChatReq chatReq) {
+    String workId = chatReq.getWorkId();
     List<AiChatbotChatDO> list = null;
     try {
-      list = chatDOMapper.selectAll();
+      list = chatDOMapper.selectByUserId(workId);
       return Result.success(list);
     } catch (Exception e) {
       log.warn("系统异常", e);
@@ -49,9 +50,9 @@ public class ChatController {
     AiChatbotChatDO chatDo = new AiChatbotChatDO();
     chatDo.setChatId(String.valueOf(UUID.randomUUID()));
     chatDo.setChatName(chatReq.getChatName());
+    chatDo.setUserId(chatReq.getWorkId());
     chatDo.setGmtCreate(new Date());
     chatDo.setGmtModified(new Date());
-    chatDo.setUserId("105766");
     try {
       chatDOMapper.insert(chatDo);
       return Result.success(chatDo);

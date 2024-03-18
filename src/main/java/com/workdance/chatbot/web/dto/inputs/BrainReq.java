@@ -1,4 +1,4 @@
-package com.workdance.chatbot.web.dto;
+package com.workdance.chatbot.web.dto.inputs;
 
 import com.workdance.chatbot.model.enums.BrainTypeEnum;
 import lombok.Data;
@@ -32,4 +32,6 @@ public class BrainReq {
    * 大脑类型
    */
   private BrainTypeEnum brainType;
+
+  private Long userId;
 }

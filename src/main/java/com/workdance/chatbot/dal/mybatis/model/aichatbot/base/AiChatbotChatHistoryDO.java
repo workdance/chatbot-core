@@ -42,6 +42,12 @@ public class AiChatbotChatHistoryDO {
     private String chatId;
 
     /**
+     * 大脑 ID
+     */
+    private String brainId;
+
+
+    /**
     * 消息 ID
     */
     private String messageId;
@@ -108,5 +114,13 @@ public class AiChatbotChatHistoryDO {
 
     public void setMessageId(String messageId) {
         this.messageId = messageId;
+    }
+
+    public String getBrainId() {
+        return brainId;
+    }
+
+    public void setBrainId(String brainId) {
+        this.brainId = brainId;
     }
 }

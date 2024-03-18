@@ -1,9 +1,10 @@
 package com.workdance.chatbot.web;
 
 import com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base.AiChatbotChatHistoryMapper;
+import com.workdance.chatbot.dal.mybatis.model.aichatbot.AiChatbotChatHistoryWithBrainDO;
 import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatHistoryDO;
 import com.workdance.chatbot.service.llm.ModelHttpService;
-import com.workdance.chatbot.web.dto.ChatHistoryReq;
+import com.workdance.chatbot.web.dto.inputs.ChatHistoryReq;
 import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,9 @@ public class ChatHistoryController {
     private ModelHttpService ollamaHttpService;
 
     @PostMapping("/list")
-    public Result<List<AiChatbotChatHistoryDO>> list(@RequestBody ChatHistoryReq chatHistoryReq) {
+    public Result<List<AiChatbotChatHistoryWithBrainDO>> list(@RequestBody ChatHistoryReq chatHistoryReq) {
         String chatId = chatHistoryReq.getChatId();
-        List<AiChatbotChatHistoryDO> list = null;
+        List<AiChatbotChatHistoryWithBrainDO> list = null;
         try {
             list = chatHistoryMapper.querySelectByChatId(chatId);
             return Result.success(list);
@@ -48,6 +49,7 @@ public class ChatHistoryController {
     chatHistoryDO.setAssistant(chatHistoryReq.getAssistant());
     chatHistoryDO.setMessageId(String.valueOf(UUID.randomUUID()));
     chatHistoryDO.setUserMessage(chatHistoryReq.getQuestion());
+    chatHistoryDO.setBrainId(chatHistoryReq.getBrainId());
     chatHistoryDO.setGmtCreate(new Date());
     chatHistoryDO.setGmtModified(new Date());
     try {

@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum BrainTypeEnum {
+  BASIC("basic"),
   DOC("doc"),
   API("api");
 

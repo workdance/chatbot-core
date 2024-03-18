@@ -18,4 +18,6 @@ public interface AiChatbotChatMapper {
     int updateByPrimaryKey(AiChatbotChatDO record);
 
     List<AiChatbotChatDO> selectAll();
+
+    List<AiChatbotChatDO> selectByUserId(String userId);
 }

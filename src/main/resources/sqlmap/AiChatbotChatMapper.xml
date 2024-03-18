@@ -117,12 +117,21 @@
       user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-    <select id="selectAll" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
-        select
-        <include refid="Base_Column_List" />
-        from ai_chatbot_chat
-        order by
-        gmt_create DESC
-    </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+      <!--@mbg.generated-->
+      select
+      <include refid="Base_Column_List" />
+      from ai_chatbot_chat
+      order by
+      gmt_create DESC
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from ai_chatbot_chat
+    where user_id = #{userId,jdbcType=VARCHAR}
+    order by
+    gmt_create DESC
+  </select>
 </mapper>

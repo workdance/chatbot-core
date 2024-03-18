@@ -1,6 +1,8 @@
-package com.workdance.chatbot.dal.mybatis;
+package com.workdance.chatbot.dal;
 
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.workdance.chatbot.dal.mybatisplus.handler.MyMetaObjectHandler;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +36,7 @@ public class MybatisConfiguration {
     sqlSessionFactoryBean.setDataSource(dataSource);
     sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver()
             .getResources("classpath:sqlmap/**/**.xml"));
+    sqlSessionFactoryBean.setGlobalConfig(new GlobalConfig().setMetaObjectHandler(new MyMetaObjectHandler()));
     return sqlSessionFactoryBean;
   }
 

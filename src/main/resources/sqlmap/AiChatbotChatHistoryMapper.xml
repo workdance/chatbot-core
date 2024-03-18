@@ -32,10 +32,10 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatHistoryDO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into ai_chatbot_chat_history (gmt_create, gmt_modified, deleted_at,
-      user_message, assistant, chat_id,
+      user_message, assistant, chat_id, brain_id,
       message_id)
     values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{deletedAt,jdbcType=TIMESTAMP},
-      #{userMessage,jdbcType=LONGVARCHAR}, #{assistant,jdbcType=LONGVARCHAR}, #{chatId,jdbcType=VARCHAR},
+      #{userMessage,jdbcType=LONGVARCHAR}, #{assistant,jdbcType=LONGVARCHAR}, #{chatId,jdbcType=VARCHAR},#{brainId,jdbcType=VARCHAR},
       #{messageId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatHistoryDO" useGeneratedKeys="true">
@@ -138,13 +138,19 @@
     gmt_create DESC
 </select>
 
-<select id="querySelectByChatId" resultMap="BaseResultMap">
-      select
-      <include refid="Base_Column_List" />
-      from ai_chatbot_chat_history
-      where chat_id = #{chatId,jdbcType=VARCHAR}
-      order by
-      gmt_create ASC
+<select id="querySelectByChatId" resultType="com.workdance.chatbot.dal.mybatis.model.aichatbot.AiChatbotChatHistoryWithBrainDO">
+    select
+        ai_chatbot_chat_history.brain_id as brain_id,
+        user_message, assistant, chat_id, message_id,
+        ai_chatbot_brain.name as brain_name,
+        ai_chatbot_brain.logo as brain_logo,
+        ai_chatbot_chat_history.gmt_create as gmt_create
+    from ai_chatbot_chat_history
+    left join ai_chatbot_brain
+    on ai_chatbot_chat_history.brain_id=ai_chatbot_brain.brain_id
+    where chat_id = #{chatId,jdbcType=VARCHAR}
+    order by
+    ai_chatbot_chat_history.gmt_create ASC
  </select>
 
   <update id="updateByMessageId">

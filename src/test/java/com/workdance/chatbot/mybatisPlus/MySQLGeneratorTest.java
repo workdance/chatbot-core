@@ -26,7 +26,7 @@ public class MySQLGeneratorTest extends BaseGeneratorTest {
      */
     private static final DataSourceConfig DATA_SOURCE_CONFIG = new DataSourceConfig
             .Builder("jdbc:mysql://localhost:3306/richplayground?useUnicode=true", "root", "U5i3C572")
-            .schema("ai_chatbot_prompt")
+            .schema("ai_chatbot_knowledge")
             .build();
 
     @Test

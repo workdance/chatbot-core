@@ -1,5 +1,6 @@
 package com.workdance.chatbot.service.brain;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotBrainDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-02-17
  */
 public interface IAiChatbotBrainService extends IService<AiChatbotBrainDO> {
-  int updateByPrimaryKeySelective(AiChatbotBrainDO record);
+
+  boolean updateBrainByBrainId(String brainId, AiChatbotBrainDO entity);
 }
