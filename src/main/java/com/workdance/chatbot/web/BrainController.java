@@ -73,10 +73,15 @@ public class BrainController {
   }
 
   @DeleteMapping(value = "/{id}")
-  public Result<String> delete(@PathVariable String id) {
+  public Result<String> delete(@PathVariable Long id) {
     try {
-      brainService.removeById(Long.valueOf(id));
-      return Result.success("delete ok");
+      boolean deleteOk = brainService.removeById(id);
+      if (deleteOk) {
+        return Result.success("delete ok");
+      } else {
+        return Result.fail("delete fail");
+      }
+
     } catch (Exception e) {
       log.warn("系统异常", e);
       return Result.fail("大脑删除失败");
