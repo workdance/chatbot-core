@@ -5,6 +5,7 @@ import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotBrainDO;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotKnowledgeDO;
 import com.workdance.chatbot.service.brain.IAiChatbotBrainService;
 import com.workdance.chatbot.service.knowledge.IAiChatbotKnowledgeService;
+import com.workdance.chatbot.web.dto.inputs.BrainReq;
 import com.workdance.chatbot.web.dto.inputs.KnowledgeReq;
 import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;
@@ -29,10 +30,12 @@ public class KnowledgeController {
   private IAiChatbotKnowledgeService knowledgeService;
 
   @PostMapping("/list")
-  public Result<List<AiChatbotKnowledgeDO>> List() {
+  public Result<List<AiChatbotKnowledgeDO>> List(@RequestBody KnowledgeReq knowledgeReq) {
     List<AiChatbotKnowledgeDO> list = null;
     try {
-      list = knowledgeService.list();
+      LambdaQueryWrapper<AiChatbotKnowledgeDO> queryWrapper = new LambdaQueryWrapper<>();
+      queryWrapper.like(AiChatbotKnowledgeDO::getBrainId, knowledgeReq.getBrainId());
+      list = knowledgeService.list(queryWrapper);
       return Result.success(list);
     } catch (Exception e) {
       log.warn("系统异常", e);

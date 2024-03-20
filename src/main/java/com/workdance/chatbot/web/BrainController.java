@@ -33,7 +33,7 @@ public class BrainController {
     List<AiChatbotBrainDO> list = null;
     try {
       LambdaQueryWrapper<AiChatbotBrainDO> queryWrapper = new LambdaQueryWrapper<>();
-      queryWrapper.like(AiChatbotBrainDO::getUserId, brainReq.getUserId());
+      queryWrapper.eq(AiChatbotBrainDO::getUserId, brainReq.getUserId());
       list = brainService.list(queryWrapper);
       return Result.success(list);
     } catch (Exception e) {
@@ -49,6 +49,7 @@ public class BrainController {
     entityDO.setDescription(brainReq.getDescription());
     entityDO.setBrainId(String.valueOf(UUID.randomUUID()));
     entityDO.setBrainType(brainReq.getBrainType());
+    entityDO.setUserId(brainReq.getUserId());
     try {
       brainService.save(entityDO);
       return Result.success(entityDO);
@@ -62,7 +63,7 @@ public class BrainController {
   public Result<AiChatbotBrainDO> detail(@PathVariable String id) {
     try {
       LambdaQueryWrapper<AiChatbotBrainDO> queryWrapper = new LambdaQueryWrapper<>();
-      queryWrapper.like(AiChatbotBrainDO::getBrainId, id);
+      queryWrapper.eq(AiChatbotBrainDO::getBrainId, id);
       AiChatbotBrainDO entityDo = brainService.getOne(queryWrapper);
       return Result.success(entityDo);
     } catch (Exception e) {

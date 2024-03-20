@@ -144,6 +144,7 @@
         user_message, assistant, chat_id, message_id,
         ai_chatbot_brain.name as brain_name,
         ai_chatbot_brain.logo as brain_logo,
+        ai_chatbot_brain.brain_id as brain_id,
         ai_chatbot_chat_history.gmt_create as gmt_create
     from ai_chatbot_chat_history
     left join ai_chatbot_brain
