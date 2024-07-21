@@ -9,6 +9,8 @@ import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,17 +21,20 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("api/v1/brain")
+@Validated
 public class BrainController {
   private static final Logger log = LoggerFactory.getLogger(BrainController.class);
 
   @Autowired(required = false)
   private IAiChatbotBrainService brainService;
 
-  @Autowired(required = false)
-  private ModelHttpService ollamaHttpService;
-
   @PostMapping("/list")
-  public Result<List<AiChatbotBrainDO>> List(@RequestBody BrainReq brainReq) {
+  public Result<List<AiChatbotBrainDO>> List(@RequestBody @Validated BrainReq brainReq, BindingResult result) {
+
+    if (result.hasErrors()) {
+      // 处理校验错误
+      return Result.fail("'参数校验失败'");
+    }
     List<AiChatbotBrainDO> list = null;
     try {
       LambdaQueryWrapper<AiChatbotBrainDO> queryWrapper = new LambdaQueryWrapper<>();
@@ -49,7 +54,7 @@ public class BrainController {
     entityDO.setDescription(brainReq.getDescription());
     entityDO.setBrainId(String.valueOf(UUID.randomUUID()));
     entityDO.setBrainType(brainReq.getBrainType());
-    entityDO.setUserId(brainReq.getUserId());
+    entityDO.setUserId(Long.valueOf(brainReq.getUserId()));
     try {
       brainService.save(entityDO);
       return Result.success(entityDO);

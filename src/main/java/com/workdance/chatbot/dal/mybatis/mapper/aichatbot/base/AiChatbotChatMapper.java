@@ -1,5 +1,6 @@
 package com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base;
 
+import com.workdance.chatbot.dal.mybatis.model.aichatbot.AiChatbotChatWithLastHistoryDO;
 import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface AiChatbotChatMapper {
     List<AiChatbotChatDO> selectAll();
 
     List<AiChatbotChatDO> selectByUserId(String userId);
+
+
+    List<AiChatbotChatWithLastHistoryDO> queryChatListWithHistoryByUserId(String userId);
 }

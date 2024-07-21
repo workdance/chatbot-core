@@ -14,7 +14,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, gmt_create, gmt_modified, deleted_at, chat_id, chat_name, user_id
+    id, gmt_create, gmt_modified, deleted_at, chat_id, chat_name, user_id, avatar
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -133,5 +133,21 @@
     where user_id = #{userId,jdbcType=VARCHAR}
     order by
     gmt_create DESC
+  </select>
+
+  <select id="queryChatListWithHistoryByUserId" parameterType="java.lang.String"
+          resultType="com.workdance.chatbot.dal.mybatis.model.aichatbot.AiChatbotChatWithLastHistoryDO">
+    select chat.chat_id as chatId, chat.avatar as avatar, chat.chat_name, ai_chatbot_chat_history.user_message, ai_chatbot_chat_history.gmt_create as message_gmt_create , chat.gmt_create as chat_gmt_create
+    from ai_chatbot_chat as chat
+           LEFT JOIN (
+      SELECT chat_id, max(gmt_create) as latest_timestamp
+      FROM ai_chatbot_chat_history
+      GROUP BY
+        chat_id
+    ) latest_chat on chat.chat_id = latest_chat.chat_id
+           LEFT JOIN ai_chatbot_chat_history ON chat.chat_id = ai_chatbot_chat_history.chat_id AND latest_chat.latest_timestamp = ai_chatbot_chat_history.gmt_create
+    where user_id = #{userId,jdbcType=VARCHAR}
+    order by
+      chat.gmt_create DESC
   </select>
 </mapper>

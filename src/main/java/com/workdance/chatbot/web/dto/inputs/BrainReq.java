@@ -1,10 +1,16 @@
 package com.workdance.chatbot.web.dto.inputs;
 
 import com.workdance.chatbot.model.enums.BrainTypeEnum;
+import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+
 @Data
-public class BrainReq {
+public class BrainReq implements Serializable {
   /**
    * 大脑名称
    */
@@ -33,5 +39,6 @@ public class BrainReq {
    */
   private BrainTypeEnum brainType;
 
-  private Long userId;
+  @NotEmpty(message = "userId不能为空")
+  private String userId;
 }

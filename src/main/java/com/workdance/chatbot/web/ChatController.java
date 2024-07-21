@@ -1,6 +1,7 @@
 package com.workdance.chatbot.web;
 
 import com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base.AiChatbotChatMapper;
+import com.workdance.chatbot.dal.mybatis.model.aichatbot.AiChatbotChatWithLastHistoryDO;
 import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO;
 import com.workdance.chatbot.service.llm.ModelHttpService;
 import com.workdance.chatbot.service.llm.dto.ChatServiceReq;
@@ -38,6 +39,19 @@ public class ChatController {
     List<AiChatbotChatDO> list = null;
     try {
       list = chatDOMapper.selectByUserId(workId);
+      return Result.success(list);
+    } catch (Exception e) {
+      log.warn("系统异常", e);
+      return Result.fail("查询失败");
+    }
+  }
+
+  @PostMapping("/listChat")
+  public Result<List<AiChatbotChatWithLastHistoryDO>> ListChat(@RequestBody ChatReq chatReq) {
+    String workId = chatReq.getWorkId();
+    List<AiChatbotChatWithLastHistoryDO> list = null;
+    try {
+      list = chatDOMapper.queryChatListWithHistoryByUserId(workId);
       return Result.success(list);
     } catch (Exception e) {
       log.warn("系统异常", e);
