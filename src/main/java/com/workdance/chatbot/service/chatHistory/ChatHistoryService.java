@@ -1,10 +1,10 @@
 package com.workdance.chatbot.service.chatHistory;
 
-import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatHistoryDO;
+import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatHistoryDO;
 
 import java.util.List;
 
-public interface ChatbotChatHistoryService{
+public interface ChatHistoryService {
 
     int deleteByPrimaryKey(Long id);
 

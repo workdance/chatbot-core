@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base.AiChatbotChatMapper">
-  <resultMap id="BaseResultMap" type="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO">
+<mapper namespace="com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotChatMapper">
+  <resultMap id="BaseResultMap" type="com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO">
     <!--@mbg.generated-->
     <!--@Table ai_chatbot_chat-->
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -11,6 +11,7 @@
     <result column="chat_id" jdbcType="VARCHAR" property="chatId" />
     <result column="chat_name" jdbcType="VARCHAR" property="chatName" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -23,21 +24,51 @@
     from ai_chatbot_chat
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <resultMap id="ChatDetailResultMap" type="com.workdance.chatbot.dal.mybatisplus.dataobject.ChatDetailDO">
+    <id column="chat_id" jdbcType="VARCHAR" property="chatId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="chat_name" jdbcType="VARCHAR" property="chatName" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <collection property="brains" ofType="com.workdance.chatbot.dal.mybatisplus.dataobject.BrainDO">
+      <result column="brain_id" property="brainId"/>
+      <result column="logo" property="logo"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectByChatId" parameterType="java.lang.String" resultMap="ChatDetailResultMap">
+    <!--@mbg.generated-->
+    select
+    ac.chat_id, ac.gmt_create, ac.gmt_modified, ac.chat_name, ac.avatar,
+    ab.brain_id, ab.logo
+    from ai_chatbot_chat ac
+        LEFT JOIN ai_chatbot_chat_brain acb on ac.chat_id = acb.chat_id
+        LEFT JOIN ai_chatbot_brain ab on acb.brain_id = ab.brain_id
+    where ac.chat_id = #{id,jdbcType=BIGINT}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from ai_chatbot_chat
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO" useGeneratedKeys="true">
+
+  <delete id="deleteByChatId" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    update ai_chatbot_chat
+    SET deleted_at = now()
+    where chat_id = #{chatId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into ai_chatbot_chat (gmt_create, gmt_modified, deleted_at,
-      chat_id, chat_name, user_id
+      chat_id, chat_name, user_id, avatar
       )
     values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{deletedAt,jdbcType=TIMESTAMP},
-      #{chatId,jdbcType=VARCHAR}, #{chatName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}
+      #{chatId,jdbcType=VARCHAR}, #{chatName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into ai_chatbot_chat
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -81,7 +112,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO">
+  <update id="updateByPrimaryKeySelective" parameterType="com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO">
     <!--@mbg.generated-->
     update ai_chatbot_chat
     <set>
@@ -106,7 +137,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatDO">
+  <update id="updateByPrimaryKey" parameterType="com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO">
     <!--@mbg.generated-->
     update ai_chatbot_chat
     set gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -135,9 +166,21 @@
     gmt_create DESC
   </select>
 
-  <select id="queryChatListWithHistoryByUserId" parameterType="java.lang.String"
-          resultType="com.workdance.chatbot.dal.mybatis.model.aichatbot.AiChatbotChatWithLastHistoryDO">
-    select chat.chat_id as chatId, chat.avatar as avatar, chat.chat_name, ai_chatbot_chat_history.user_message, ai_chatbot_chat_history.gmt_create as message_gmt_create , chat.gmt_create as chat_gmt_create
+
+  <resultMap id="ChatListResultMap" type="com.workdance.chatbot.dal.mybatisplus.dataobject.AiChatbotChatWithLastHistoryDO">
+    <id column="chatId" jdbcType="VARCHAR" property="chatId" />
+    <result column="chat_gmt_create" jdbcType="TIMESTAMP" property="chatGmtCreate" />
+    <result column="message_gmt_create" jdbcType="TIMESTAMP" property="messageGmtCreate" />
+    <result column="chat_name" jdbcType="VARCHAR" property="chatName" />
+    <result column="user_message" jdbcType="VARCHAR" property="userMessage" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <collection property="brains" ofType="com.workdance.chatbot.dal.mybatisplus.dataobject.BrainDO">
+      <result column="brainId" property="brainId"/>
+    </collection>
+  </resultMap>
+
+  <select id="queryChatListWithHistoryByUserId" parameterType="java.lang.String" resultMap="ChatListResultMap">
+    select chat.chat_id as chatId, chat.avatar as avatar, ai_chatbot_chat_brain.brain_id as brainId, chat.chat_name, ai_chatbot_chat_history.user_message, ai_chatbot_chat_history.gmt_create as message_gmt_create , chat.gmt_create as chat_gmt_create
     from ai_chatbot_chat as chat
            LEFT JOIN (
       SELECT chat_id, max(gmt_create) as latest_timestamp
@@ -146,8 +189,9 @@
         chat_id
     ) latest_chat on chat.chat_id = latest_chat.chat_id
            LEFT JOIN ai_chatbot_chat_history ON chat.chat_id = ai_chatbot_chat_history.chat_id AND latest_chat.latest_timestamp = ai_chatbot_chat_history.gmt_create
-    where user_id = #{userId,jdbcType=VARCHAR}
+           LEFT JOIN ai_chatbot_chat_brain ON ai_chatbot_chat_brain.chat_id = chat.chat_id
+    where user_id = #{userId,jdbcType=VARCHAR} and chat.deleted_at is null
     order by
-      chat.gmt_create DESC
+      ai_chatbot_chat_history.gmt_create DESC
   </select>
 </mapper>

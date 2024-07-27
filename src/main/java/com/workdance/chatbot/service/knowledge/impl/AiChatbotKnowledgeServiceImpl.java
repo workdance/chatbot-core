@@ -3,7 +3,7 @@ package com.workdance.chatbot.service.knowledge.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotKnowledgeDO;
 import com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotKnowledgeMapper;
-import com.workdance.chatbot.service.knowledge.IAiChatbotKnowledgeService;
+import com.workdance.chatbot.service.knowledge.KnowledgeService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-03-14
  */
 @Service
-public class AiChatbotKnowledgeServiceImpl extends ServiceImpl<AiChatbotKnowledgeMapper, AiChatbotKnowledgeDO> implements IAiChatbotKnowledgeService {
+public class AiChatbotKnowledgeServiceImpl extends ServiceImpl<AiChatbotKnowledgeMapper, AiChatbotKnowledgeDO> implements KnowledgeService {
 
 }

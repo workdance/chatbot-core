@@ -1,15 +1,15 @@
 package com.workdance.chatbot.service.chatHistory.impl;
 
-import com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base.AiChatbotChatHistoryMapper;
-import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatHistoryDO;
-import com.workdance.chatbot.service.chatHistory.ChatbotChatHistoryService;
+import com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotChatHistoryMapper;
+import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatHistoryDO;
+import com.workdance.chatbot.service.chatHistory.ChatHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ChatbotChatHistoryServiceImpl implements ChatbotChatHistoryService{
+public class ChatHistoryServiceImpl implements ChatHistoryService {
 
     @Autowired
     private AiChatbotChatHistoryMapper chatbotChatHistoryMapper;

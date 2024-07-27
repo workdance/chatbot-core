@@ -1,6 +1,7 @@
-package com.workdance.chatbot.dal.mybatis.model.aichatbot.base;
+package com.workdance.chatbot.dal.mybatisplus.entity;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * chatbot聊天记录
@@ -122,5 +123,10 @@ public class AiChatbotChatHistoryDO {
 
     public void setBrainId(String brainId) {
         this.brainId = brainId;
+    }
+
+
+    public static String generateMessageId() {
+        return  "msg-" + String.valueOf(UUID.randomUUID());
     }
 }

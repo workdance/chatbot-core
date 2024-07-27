@@ -1,8 +1,8 @@
 package com.workdance.chatbot.web;
 
-import com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base.AiChatbotChatHistoryMapper;
-import com.workdance.chatbot.dal.mybatis.model.aichatbot.AiChatbotChatHistoryWithBrainDO;
-import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatHistoryDO;
+import com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotChatHistoryMapper;
+import com.workdance.chatbot.dal.mybatisplus.dataobject.AiChatbotChatHistoryWithBrainDO;
+import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatHistoryDO;
 import com.workdance.chatbot.service.llm.ModelHttpService;
 import com.workdance.chatbot.web.dto.inputs.ChatHistoryReq;
 import com.workdance.chatbot.web.helper.Result;
@@ -47,7 +47,7 @@ public class ChatHistoryController {
     AiChatbotChatHistoryDO chatHistoryDO = new AiChatbotChatHistoryDO();
     chatHistoryDO.setChatId(chatHistoryReq.getChatId());
     chatHistoryDO.setAssistant(chatHistoryReq.getAssistant());
-    chatHistoryDO.setMessageId(String.valueOf(UUID.randomUUID()));
+    chatHistoryDO.setMessageId(AiChatbotChatHistoryDO.generateMessageId());
     chatHistoryDO.setUserMessage(chatHistoryReq.getQuestion());
     chatHistoryDO.setBrainId(chatHistoryReq.getBrainId());
     chatHistoryDO.setGmtCreate(new Date());

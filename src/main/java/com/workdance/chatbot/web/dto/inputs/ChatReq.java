@@ -7,4 +7,6 @@ public class ChatReq {
   public String chatName;
   public String workId;
   public String brainId;
+  public String chatId;
+  public String userId;
 }

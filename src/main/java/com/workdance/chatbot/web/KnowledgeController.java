@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotBrainDO;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotKnowledgeDO;
 import com.workdance.chatbot.service.brain.IAiChatbotBrainService;
-import com.workdance.chatbot.service.knowledge.IAiChatbotKnowledgeService;
-import com.workdance.chatbot.web.dto.inputs.BrainReq;
+import com.workdance.chatbot.service.knowledge.KnowledgeService;
 import com.workdance.chatbot.web.dto.inputs.KnowledgeReq;
 import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;
@@ -27,7 +26,7 @@ public class KnowledgeController {
   private IAiChatbotBrainService brainService;
 
   @Autowired(required = false)
-  private IAiChatbotKnowledgeService knowledgeService;
+  private KnowledgeService knowledgeService;
 
   @PostMapping("/list")
   public Result<List<AiChatbotKnowledgeDO>> List(@RequestBody KnowledgeReq knowledgeReq) {

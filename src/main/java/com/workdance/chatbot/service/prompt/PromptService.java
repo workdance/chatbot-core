@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author michael.sl
  * @since 2024-02-17
  */
-public interface IAiChatbotPromptService extends IService<AiChatbotPromptDO> {
+public interface PromptService extends IService<AiChatbotPromptDO> {
 
 }

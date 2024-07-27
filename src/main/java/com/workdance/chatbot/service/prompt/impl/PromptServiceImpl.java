@@ -2,7 +2,7 @@ package com.workdance.chatbot.service.prompt.impl;
 
 import com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotPromptMapper;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotPromptDO;
-import com.workdance.chatbot.service.prompt.IAiChatbotPromptService;
+import com.workdance.chatbot.service.prompt.PromptService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-02-17
  */
 @Service
-public class AiChatbotPromptServiceImpl extends ServiceImpl<AiChatbotPromptMapper, AiChatbotPromptDO> implements IAiChatbotPromptService {
+public class PromptServiceImpl extends ServiceImpl<AiChatbotPromptMapper, AiChatbotPromptDO> implements PromptService {
 
 }

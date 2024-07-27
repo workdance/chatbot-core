@@ -5,6 +5,7 @@ import com.workdance.chatbot.model.enums.BrainTypeEnum;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * <p>
@@ -218,5 +219,9 @@ public class AiChatbotBrainDO implements Serializable {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public static String generateBrainId() {
+        return  "brain-" + String.valueOf(UUID.randomUUID());
     }
 }

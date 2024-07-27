@@ -1,7 +1,7 @@
 package com.workdance.chatbot.web;
 
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotPromptDO;
-import com.workdance.chatbot.service.prompt.IAiChatbotPromptService;
+import com.workdance.chatbot.service.prompt.PromptService;
 import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class PromptController {
   private static final Logger log = LoggerFactory.getLogger(PromptController.class);
 
   @Autowired(required = false)
-  private IAiChatbotPromptService promptService;
+  private PromptService promptService;
 
   @PostMapping("/list")
   public Result<List<AiChatbotPromptDO>> List() {

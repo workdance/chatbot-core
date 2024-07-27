@@ -11,6 +11,6 @@ import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotKnowledgeDO;
  * @author michael.sl
  * @since 2024-03-14
  */
-public interface IAiChatbotKnowledgeService extends IService<AiChatbotKnowledgeDO> {
+public interface KnowledgeService extends IService<AiChatbotKnowledgeDO> {
 
 }

@@ -20,4 +20,8 @@ public class StringUtil {
       return start > str.length() ? "" : str.substring(start);
     }
   }
+
+  public static Boolean isEmpty(String str) {
+    return str == null || str.isEmpty();
+  }
 }

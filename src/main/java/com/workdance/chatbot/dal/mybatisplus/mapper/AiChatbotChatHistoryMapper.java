@@ -1,7 +1,7 @@
-package com.workdance.chatbot.dal.mybatis.mapper.aichatbot.base;
+package com.workdance.chatbot.dal.mybatisplus.mapper;
 
-import com.workdance.chatbot.dal.mybatis.model.aichatbot.AiChatbotChatHistoryWithBrainDO;
-import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatHistoryDO;
+import com.workdance.chatbot.dal.mybatisplus.dataobject.AiChatbotChatHistoryWithBrainDO;
+import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatHistoryDO;
 
 import java.util.List;
 

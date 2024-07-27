@@ -1,9 +1,7 @@
-package com.workdance.chatbot.dal.mybatis.model.aichatbot;
+package com.workdance.chatbot.dal.mybatisplus.dataobject;
 
-import com.workdance.chatbot.dal.mybatis.model.aichatbot.base.AiChatbotChatHistoryDO;
+import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatHistoryDO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class AiChatbotChatHistoryWithBrainDO extends AiChatbotChatHistoryDO {

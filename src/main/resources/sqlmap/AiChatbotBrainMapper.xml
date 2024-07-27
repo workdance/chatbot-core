@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotBrainMapper">
+    <select id="queryBrainByChatId" resultType="com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotBrainDO">
+        select
+            ai_chatbot_brain.brain_id as brain_id,
+            ai_chatbot_brain.name as name,
+            ai_chatbot_brain.logo as logo
+        from ai_chatbot_chat_brain
+                 left join ai_chatbot_brain
+                           on ai_chatbot_chat_brain.brain_id=ai_chatbot_brain.brain_id
+        where chat_id = #{chatId,jdbcType=VARCHAR}
+        order by
+            ai_chatbot_chat_brain.gmt_create ASC
+    </select>
 </mapper>

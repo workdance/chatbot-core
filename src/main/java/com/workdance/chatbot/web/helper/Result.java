@@ -1,5 +1,6 @@
 package com.workdance.chatbot.web.helper;
 
+import com.workdance.chatbot.utils.TraceIdUtil;
 import com.workdance.chatbot.utils.enums.ErrorCodeEnum;
 
 
@@ -32,6 +33,7 @@ public class Result<T> {
         Result<T> result = new Result<T>();
         result.data = val;
         result.success = true;
+        result.traceId = TraceIdUtil.getTraceId();
         return result;
     }
 
@@ -39,6 +41,7 @@ public class Result<T> {
         Result<T> result = new Result<T>();
         result.success = false;
         result.errorMessage = errorMessage;
+        result.traceId = TraceIdUtil.getTraceId();
         return result;
     }
 
@@ -47,6 +50,7 @@ public class Result<T> {
         result.success = false;
         result.errorCode = errorCode;
         result.errorMessage = errorMessage;
+        result.traceId = TraceIdUtil.getTraceId();
         return result;
     }
 
