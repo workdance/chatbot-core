@@ -137,6 +137,36 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <update id="updateByChatIdSelective" parameterType="com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO">
+    <!--@mbg.generated-->
+    update ai_chatbot_chat
+    <set>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletedAt != null">
+        deleted_at = #{deletedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chatId != null">
+        chat_id = #{chatId,jdbcType=VARCHAR},
+      </if>
+      <if test="chatName != null">
+        chat_name = #{chatName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where chat_id = #{chatId,jdbcType=BIGINT}
+  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO">
     <!--@mbg.generated-->
     update ai_chatbot_chat

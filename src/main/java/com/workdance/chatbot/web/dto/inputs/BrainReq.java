@@ -37,7 +37,9 @@ public class BrainReq implements Serializable {
   /**
    * 大脑类型
    */
-  private BrainTypeEnum brainType;
+  private String brainType;
+
+  private String logo;
 
   @NotEmpty(message = "userId不能为空")
   private String userId;

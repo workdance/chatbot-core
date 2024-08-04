@@ -118,14 +118,19 @@ public class ChatController {
     @PutMapping(value = "/{id}")
     public Result<AiChatbotChatDO> modify(@PathVariable String id, @RequestBody ChatReq chatReq) {
         AiChatbotChatDO chatDO = new AiChatbotChatDO();
-        chatDO.setId(Long.valueOf(id));
+        chatDO.setChatId(chatReq.getChatId());
         chatDO.setChatName(chatReq.getChatName());
         try {
-            chatDOMapper.updateByPrimaryKeySelective(chatDO);
-            return Result.success(chatDO);
+            int isOk = chatDOMapper.updateByChatIdSelective(chatDO);
+            if (isOk > 0) {
+                log.info("[chatController#modify] success=Y chatId={}", id);
+                return Result.success(chatDO);
+            }
+            return Result.fail("对话更新失败");
         } catch (Exception e) {
             log.warn("系统异常", e);
-            return Result.fail("对话更新失败");
+            log.info("[chatController#modify] success=N chatId={}", id);
+            return Result.fail("对话更新系统异常");
         }
     }
 

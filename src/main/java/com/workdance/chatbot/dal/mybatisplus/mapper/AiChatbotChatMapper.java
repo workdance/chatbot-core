@@ -21,6 +21,8 @@ public interface AiChatbotChatMapper {
 
     int updateByPrimaryKeySelective(AiChatbotChatDO record);
 
+    int updateByChatIdSelective(AiChatbotChatDO record);
+
     int updateByPrimaryKey(AiChatbotChatDO record);
 
     List<AiChatbotChatDO> selectAll();

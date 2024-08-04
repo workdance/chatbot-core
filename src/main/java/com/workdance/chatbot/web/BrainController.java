@@ -2,6 +2,7 @@ package com.workdance.chatbot.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotBrainDO;
+import com.workdance.chatbot.model.enums.BrainTypeEnum;
 import com.workdance.chatbot.service.brain.IAiChatbotBrainService;
 import com.workdance.chatbot.service.llm.ModelHttpService;
 import com.workdance.chatbot.web.dto.inputs.BrainReq;
@@ -53,8 +54,10 @@ public class BrainController {
     entityDO.setName(brainReq.getName());
     entityDO.setDescription(brainReq.getDescription());
     entityDO.setBrainId(String.valueOf(UUID.randomUUID()));
-    entityDO.setBrainType(brainReq.getBrainType());
+    entityDO.setBrainType(BrainTypeEnum.valueOf(brainReq.getBrainType().toUpperCase()));
     entityDO.setUserId(Long.valueOf(brainReq.getUserId()));
+    entityDO.setLogo(brainReq.getLogo());
+    entityDO.setModel(brainReq.getModel());
     try {
       brainService.save(entityDO);
       return Result.success(entityDO);
