@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotBrainDO;
 import com.workdance.chatbot.model.enums.BrainTypeEnum;
 import com.workdance.chatbot.service.brain.IAiChatbotBrainService;
-import com.workdance.chatbot.service.llm.ModelHttpService;
 import com.workdance.chatbot.web.dto.inputs.BrainReq;
 import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;

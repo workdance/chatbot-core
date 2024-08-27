@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.workdance.chatbot.dal.mybatisplus.dataobject.ChatDetailDO;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotBrainDO;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatBrainDO;
-import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO;
+import com.workdance.chatbot.service.chat.dto.ChatServiceReq;
+import com.workdance.chatbot.service.llm.dto.AnswerRep;
 import com.workdance.chatbot.web.dto.inputs.ChatReq;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -18,7 +20,9 @@ import java.util.List;
  * @since 2024-07-24
  */
 public interface ChatBrainService extends IService<AiChatbotChatBrainDO> {
-    public List<AiChatbotBrainDO> getBrainListByChatId(String chatId);
+    List<AiChatbotBrainDO> getBrainListByChatId(String chatId);
 
-    public ChatDetailDO createChatAndBrain(ChatReq chatReq);
+    ChatDetailDO createChatAndBrain(ChatReq chatReq);
+
+    Flux<AnswerRep> chatByBrainId(ChatServiceReq chatServiceReq);
 }

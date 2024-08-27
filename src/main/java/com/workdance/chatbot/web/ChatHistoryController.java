@@ -1,19 +1,19 @@
 package com.workdance.chatbot.web;
 
-import com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotChatHistoryMapper;
 import com.workdance.chatbot.dal.mybatisplus.dataobject.AiChatbotChatHistoryWithBrainDO;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatHistoryDO;
-import com.workdance.chatbot.service.llm.ModelHttpService;
+import com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotChatHistoryMapper;
+import com.workdance.chatbot.service.llm.ModelService;
 import com.workdance.chatbot.web.dto.inputs.ChatHistoryReq;
 import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Restful 示例
@@ -27,7 +27,8 @@ public class ChatHistoryController {
     private AiChatbotChatHistoryMapper chatHistoryMapper;
 
     @Autowired(required = false)
-    private ModelHttpService ollamaHttpService;
+    @Qualifier("OllamaService")
+    private ModelService ollamaHttpService;
 
     @PostMapping("/list")
     public Result<List<AiChatbotChatHistoryWithBrainDO>> list(@RequestBody ChatHistoryReq chatHistoryReq) {

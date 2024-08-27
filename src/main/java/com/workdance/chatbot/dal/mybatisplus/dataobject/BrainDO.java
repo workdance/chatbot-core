@@ -6,4 +6,5 @@ import lombok.Data;
 public class BrainDO {
     public String brainId;
     public String logo;
+    public String brainType;
 }

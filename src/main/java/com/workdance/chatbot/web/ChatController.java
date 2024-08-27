@@ -1,28 +1,26 @@
 package com.workdance.chatbot.web;
 
-import com.workdance.chatbot.dal.mybatisplus.dataobject.ChatDetailDO;
-import com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotChatMapper;
 import com.workdance.chatbot.dal.mybatisplus.dataobject.AiChatbotChatWithLastHistoryDO;
+import com.workdance.chatbot.dal.mybatisplus.dataobject.ChatDetailDO;
 import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotChatDO;
-import com.workdance.chatbot.dal.mybatisplus.entity.AiChatbotBrainDO;
+import com.workdance.chatbot.dal.mybatisplus.mapper.AiChatbotChatMapper;
 import com.workdance.chatbot.service.chat.ChatBrainService;
-import com.workdance.chatbot.service.llm.ModelHttpService;
-import com.workdance.chatbot.service.llm.dto.ChatServiceReq;
+import com.workdance.chatbot.service.chat.dto.ChatServiceReq;
+import com.workdance.chatbot.service.llm.ModelService;
+import com.workdance.chatbot.service.llm.dto.AnswerRep;
 import com.workdance.chatbot.web.dto.inputs.ChatReq;
-import com.workdance.chatbot.web.dto.outputs.ChatDetailRep;
+import com.workdance.chatbot.web.dto.outputs.ChatAnswer;
 import com.workdance.chatbot.web.helper.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Restful 示例
@@ -36,10 +34,12 @@ public class ChatController {
     private AiChatbotChatMapper chatDOMapper;
 
     @Autowired(required = false)
-    private ModelHttpService ollamaHttpService;
+    @Qualifier("OllamaService")
+    private ModelService ollamaHttpService;
 
     @Autowired(required = false)
     private ChatBrainService chatBrainService;
+
 
     @GetMapping("/{id}")
     public Result<ChatDetailDO> detail(@PathVariable String id) {
@@ -135,16 +135,16 @@ public class ChatController {
     }
 
     @GetMapping(value = "/{id}/question/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> chatWithQuestion(@PathVariable String id) throws IOException {
+    public Flux<AnswerRep> chatWithQuestion(@PathVariable String id) throws IOException {
         ChatServiceReq chatToServiceVO = new ChatServiceReq();
 //        chatToServiceVO.setQuestion(chatQuestionVO.getQuestion());
         chatToServiceVO.setQuestion("please tell me something about china");
 
-        return ollamaHttpService.requestExternalService(chatToServiceVO);
+        return ollamaHttpService.askQuestion(chatToServiceVO);
 //        return ollamaHttpService.streamData();
 //        SseEmitter emitter = new SseEmitter();
 //        System.out.println("flux::::::");
-//        System.out.println(streamFlux.collectList().block());
+//        System.out.println(streamFlux.collectList().block());d
 //        streamFlux.subscribe(
 //                // 数据处理
 //                data -> {
@@ -162,6 +162,35 @@ public class ChatController {
 //        );
 //
 //        return emitter;
+    }
+
+    /**
+     * 调用大模型服务完成对话
+     * @param brainId BrainId
+     * @param question 问题文本
+     * @param conversationId 会话 Id，很多时候是 chatId
+     * @return
+     * @throws IOException
+     */
+    @GetMapping(value = "/{brainId}/question", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ChatAnswer> chatWithQuestionV2(@PathVariable String brainId, @RequestParam String question, @RequestParam String conversationId) throws IOException {
+        ChatServiceReq chatServiceReq = new ChatServiceReq();
+        chatServiceReq.setBrainId(brainId);
+        chatServiceReq.setConversationId(conversationId);
+        chatServiceReq.setQuestion(question);
+        chatServiceReq.setStream(true); // 流式服务
+        Flux<ChatAnswer> chatAnswerFlux = Flux.empty();
+        Flux<AnswerRep> stringFlux = chatBrainService.chatByBrainId(chatServiceReq);
+        chatAnswerFlux = stringFlux.map(answerRep -> {
+            ChatAnswer chatAnswer = new ChatAnswer();
+            chatAnswer.setAnswer(answerRep.getAnswer());
+            chatAnswer.setIsCompletion(answerRep.isCompletion());
+            chatAnswer.setConversationId(answerRep.getConversationId());
+            chatAnswer.setRequestId(answerRep.getRequestId());
+            return chatAnswer;
+        });
+        log.info("[chatController#question] success=Y");
+        return chatAnswerFlux;
     }
 }
 

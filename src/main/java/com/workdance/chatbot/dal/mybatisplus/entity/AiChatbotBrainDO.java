@@ -82,6 +82,12 @@ public class AiChatbotBrainDO implements Serializable {
 
     private Long userId;
 
+    private String appId;
+
+    private String appKey;
+
+    private String appPlatform;
+
     public Long getId() {
         return id;
     }
@@ -223,5 +229,29 @@ public class AiChatbotBrainDO implements Serializable {
 
     public static String generateBrainId() {
         return  "brain-" + String.valueOf(UUID.randomUUID());
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getAppKey() {
+        return appKey;
+    }
+
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
+    }
+
+    public String getAppPlatform() {
+        return appPlatform;
+    }
+
+    public void setAppPlatform(String appPlatform) {
+        this.appPlatform = appPlatform;
     }
 }

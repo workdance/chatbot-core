@@ -1,7 +1,9 @@
 package com.workdance.chatbot.service.llm.impl;
 
-import com.workdance.chatbot.service.llm.ModelHttpService;
-import com.workdance.chatbot.service.llm.dto.ChatServiceReq;
+import com.workdance.chatbot.service.llm.ModelService;
+import com.workdance.chatbot.service.chat.dto.ChatServiceReq;
+import com.workdance.chatbot.service.llm.dto.AnswerRep;
+import com.workdance.chatbot.service.llm.dto.ConversationRep;
 import com.workdance.chatbot.service.llm.dto.Message;
 import com.workdance.chatbot.utils.enums.MessageType;
 import lombok.extern.slf4j.Slf4j;
@@ -17,21 +19,26 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 
 @Slf4j
-@Service
-public class OllamaHttpServiceImpl implements ModelHttpService {
+@Service("OllamaService")
+public class OllamaHttpServiceImpl implements ModelService {
 //    private final CloseableHttpClient httpClient;
 
     @Value("${ollama_service_url}")
     private String serviceUrl;
 
 
-//    @Autowired
-//    public OllamaHttpService(CloseableHttpClient httpClient) {
-//        this.httpClient = httpClient;
-//    }
+    @Override
+    public ConversationRep createConversation(ChatServiceReq chatServiceReq) {
+        return null;
+    }
 
-    public Flux<String> requestExternalService(ChatServiceReq chatServiceReq) {
-        String uri = this.serviceUrl + "?question=" + chatServiceReq.getQuestion();
+    public Flux<AnswerRep> askQuestion(ChatServiceReq chatServiceReq) {
+        Flux<AnswerRep> answerRepFlux = Flux.empty();
+        return answerRepFlux;
+    }
+
+    public Flux<String> askQuestion(ChatServiceReq chatServiceReq, String sessionId) {
+        String uri = this.serviceUrl + "?query=" + chatServiceReq.getQuery();
         WebClient webclient = WebClient.builder().build();
         Flux<String> openAiResponse = webclient.get()
                 .uri(uri)
@@ -39,20 +46,20 @@ public class OllamaHttpServiceImpl implements ModelHttpService {
                 .retrieve()
                 .bodyToFlux(String.class)
                 .onErrorResume(WebClientResponseException.class, ex -> {
-                  HttpStatus status = (HttpStatus) ex.getStatusCode();
-                  String res = ex.getResponseBodyAsString();
-                  log.error("OpenAI API error: {} {}", status, res);
-                  return Mono.error(new RuntimeException(res));
+                    HttpStatus status = (HttpStatus) ex.getStatusCode();
+                    String res = ex.getResponseBodyAsString();
+                    log.error("OpenAI API error: {} {}", status, res);
+                    return Mono.error(new RuntimeException(res));
                 });
-      Message userMessage = new Message(MessageType.TEXT, chatServiceReq.getQuestion());
+        Message userMessage = new Message(MessageType.TEXT, chatServiceReq.getQuestion());
 
-      // 订阅Flux流并处理每个接收到的数据项
-      openAiResponse.subscribe(
-              data -> System.out.println("Received data: " + data),
-              error -> System.err.println("Error occurred: " + error),
-              () -> System.out.println("Streaming finished.")
-      );
-      return openAiResponse;
+        // 订阅Flux流并处理每个接收到的数据项
+        openAiResponse.subscribe(
+                data -> System.out.println("Received data: " + data),
+                error -> System.err.println("Error occurred: " + error),
+                () -> System.out.println("Streaming finished.")
+        );
+        return openAiResponse;
 //        Flux<String> streamFlux = ollamaHttpService.streamData();
 //      return Flux.create(emitter -> {
 //        System.out.println(emitter);
@@ -69,18 +76,18 @@ public class OllamaHttpServiceImpl implements ModelHttpService {
                 .map(l -> "Data " + l);
     }
 
-  @Override
-  public void completed(Message questions, String sessionId, String response) {
-    log.info("请求成功 sessionId:{}", sessionId);
-  }
+    @Override
+    public void completed(Message questions, String sessionId, String response) {
+        log.info("请求成功 sessionId:{}", sessionId);
+    }
 
-  @Override
-  public void fail(Message questions, String sessionId, String response) {
-    log.error("处理失败 sessionId:{},questions:{},errorMsg:{}", sessionId, questions, response);
-  }
+    @Override
+    public void fail(Message questions, String sessionId, String response) {
+        log.error("处理失败 sessionId:{},questions:{},errorMsg:{}", sessionId, questions, response);
+    }
 
-  @Override
-  public void clearHistory(String sessionId) {
-    log.info("清除历史记录 sessionId:{}", sessionId);
-  }
+    @Override
+    public void clearHistory(String sessionId) {
+        log.info("清除历史记录 sessionId:{}", sessionId);
+    }
 }

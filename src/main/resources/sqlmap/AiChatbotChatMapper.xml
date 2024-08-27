@@ -34,6 +34,7 @@
     <collection property="brains" ofType="com.workdance.chatbot.dal.mybatisplus.dataobject.BrainDO">
       <result column="brain_id" property="brainId"/>
       <result column="logo" property="logo"/>
+      <result column="brain_type" property="brainType"/>
     </collection>
   </resultMap>
 
@@ -41,7 +42,7 @@
     <!--@mbg.generated-->
     select
     ac.chat_id, ac.gmt_create, ac.gmt_modified, ac.chat_name, ac.avatar,
-    ab.brain_id, ab.logo
+    ab.brain_id, ab.logo, ab.brain_type
     from ai_chatbot_chat ac
         LEFT JOIN ai_chatbot_chat_brain acb on ac.chat_id = acb.chat_id
         LEFT JOIN ai_chatbot_brain ab on acb.brain_id = ab.brain_id
